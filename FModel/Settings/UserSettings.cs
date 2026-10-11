@@ -669,4 +669,18 @@ public sealed class UserSettings : ViewModel
         get => _exportImmediately;
         set => SetProperty(ref _exportImmediately, value);
     }
+
+    private bool _mcpEnabled = true;
+    public bool McpEnabled
+    {
+        get => _mcpEnabled;
+        set => SetProperty(ref _mcpEnabled, value);
+    }
+
+    private int _mcpPort = 8650;
+    public int McpPort
+    {
+        get => _mcpPort;
+        set => SetProperty(ref _mcpPort, value);
+    }
 }

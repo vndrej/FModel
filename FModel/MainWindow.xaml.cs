@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using FModel.Extensions;
+using FModel.Mcp;
 using FModel.Services;
 using FModel.Settings;
 using FModel.ViewModels;
@@ -92,6 +93,7 @@ public partial class MainWindow
 #if !DEBUG
         ApplicationService.ApiEndpointView.FModelApi.CheckForUpdates(true);
 #endif
+        _ = McpServerHost.StartAsync(); // AI clients can connect while the provider is still loading; tools report readiness
 
         switch (UserSettings.Default.AesReload)
         {

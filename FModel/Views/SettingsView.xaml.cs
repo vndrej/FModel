@@ -10,6 +10,7 @@ using CUE4Parse.UE4.Lua.unluac;
 using FModel.Extensions;
 using FModel.Extensions.Themes;
 using FModel.Framework;
+using FModel.Mcp;
 using FModel.Services;
 using FModel.Settings;
 using FModel.ViewModels;
@@ -48,6 +49,7 @@ public partial class SettingsView
             _applicationView.RestartWithWarning();
 
         Close();
+        _ = McpServerHost.ApplySettingsAsync();
 
         foreach (var dOut in whatShouldIDo)
         {

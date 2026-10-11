@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Threading;
 using CUE4Parse;
 using FModel.Framework;
+using FModel.Mcp;
 using FModel.Services;
 using FModel.Settings;
 using FModel.Views.Snooper;
@@ -150,6 +151,8 @@ public partial class App
 
     private void AppExit(object sender, ExitEventArgs e)
     {
+        // Off the UI thread, with a hard cap: closing FModel must never wait on a stuck MCP client.
+        System.Threading.Tasks.Task.Run(McpServerHost.StopAsync).Wait(TimeSpan.FromSeconds(5));
         Log.Information("––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––");
         Log.CloseAndFlush();
         UserSettings.Save();

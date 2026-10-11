@@ -1734,6 +1734,19 @@ public class CUE4ParseViewModel : ViewModel
         TabControl.SelectedTab.TitleExtra = "Decompiled";
         TabControl.SelectedTab.Highlighter = AvalonExtensions.HighlighterSelector("cpp");
 
+        var cpp = DecompileToText(entry);
+        if (cpp is null) return false;
+
+        TabControl.SelectedTab.SetDocumentText(cpp, false, false);
+        return true;
+    }
+
+    /// <summary>
+    /// Decompiles every UClass export of <paramref name="entry"/> to pseudo C++ without touching the UI.
+    /// Returns null when the package holds no blueprint class.
+    /// </summary>
+    public string DecompileToText(GameFile entry)
+    {
         var pkg = Provider.LoadPackage(entry);
         UClassCookedMetaData cookedMetaData = null;
         try
@@ -1749,7 +1762,7 @@ public class CUE4ParseViewModel : ViewModel
         for (var i = 0; i < pkg.ExportMapLength; i++)
         {
             var pointer = new FPackageIndex(pkg, i + 1).ResolvedObject;
-            if (pointer?.Object is null && pointer.Class?.Object?.Value is null)
+            if (pointer is null || pointer.Object is null && pointer.Class?.Object?.Value is null)
                 continue;
 
             var dummy = ((AbstractUePackage) pkg).ConstructObject(pointer.Class, pkg);
@@ -1759,7 +1772,7 @@ public class CUE4ParseViewModel : ViewModel
             cppList.Add(blueprint.DecompileBlueprintToPseudo(cookedMetaData));
         }
 
-        if (cppList.Count == 0) return false;
+        if (cppList.Count == 0) return null;
         var cpp = cppList.Count > 1 ? string.Join("\n\n", cppList) : cppList.FirstOrDefault() ?? string.Empty;
         if (entry.Path.Contains("_Verse.uasset"))
         {
@@ -1769,8 +1782,7 @@ public class CUE4ParseViewModel : ViewModel
         cpp = Regex.Replace(cpp, @"K2Node_DynamicCast_([A-Za-z0-9_]+)", "$1");
         cpp = Regex.Replace(cpp, @"K2Node_([A-Za-z0-9_]+)", "$1");
 
-        TabControl.SelectedTab.SetDocumentText(cpp, false, false);
-        return true;
+        return cpp;
     }
 
     private void SaveAndPlaySound(CancellationToken cancellationToken, string fullPath, string ext, byte[] data, bool saveAudio, bool updateUi)

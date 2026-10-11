@@ -15,6 +15,9 @@ FModel is actively maintained and developed by a dedicated community of contribu
 ### Installation:
 For installation, follow the instructions from [here](https://github.com/4sval/FModel/wiki/Installing-FModel)
 
+### AI assistants (MCP):
+This fork embeds a [Model Context Protocol](https://modelcontextprotocol.io/) server so Claude, ChatGPT/Codex and other MCP clients can search, read and export assets through the running FModel. It listens on `http://127.0.0.1:8650/mcp`; see [MCP.md](MCP.md) for client setup and the tool list.
+
 ### Sponsorship:
 <p>
   <a href="https://1password.com/">

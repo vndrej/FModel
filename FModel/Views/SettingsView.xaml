@@ -263,6 +263,18 @@
                              TextAlignment="Right"
                              TextChanged="CriwareKeyBox_TextChanged"
                              Loaded="CriwareKeyBox_Loaded" />
+
+                    <Separator Grid.Row="22" Grid.Column="0" Grid.ColumnSpan="7" Style="{StaticResource CustomSeparator}" Tag="AI ASSISTANTS (MCP)"></Separator>
+
+                    <TextBlock Grid.Row="23" Grid.Column="0" Text="MCP Server" VerticalAlignment="Center" Margin="0 0 0 5"
+                               ToolTip="Lets Claude, ChatGPT/Codex or any Model Context Protocol client browse, read and export assets through FModel. Listens on 127.0.0.1 only. See MCP.md for client setup." />
+                    <CheckBox Grid.Row="23" Grid.Column="2" Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={x:Static converters:BoolToToggleConverter.Instance}}"
+                              IsChecked="{Binding McpEnabled, Source={x:Static local:Settings.UserSettings.Default}, Mode=TwoWay}" Margin="0 5 0 10"
+                              Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" />
+                    <TextBlock Grid.Row="23" Grid.Column="4" Text="Port" VerticalAlignment="Center" Margin="0 0 0 5" />
+                    <TextBox Grid.Row="23" Grid.Column="6" Width="70" VerticalAlignment="Center" TextAlignment="Right" Margin="0 0 0 5" MaxLength="5"
+                             ToolTip="The MCP endpoint will be http://127.0.0.1:PORT/mcp"
+                             Text="{Binding McpPort, Source={x:Static local:Settings.UserSettings.Default}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="CreatorTemplate">
